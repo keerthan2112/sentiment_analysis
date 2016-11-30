@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<style>
+  .injected-text {
+    margin-bottom: -25px;
+    text-align: center;
+  }
+  </style>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="injected-text text-primary">
+  <h2>Tweet map</h2>
+  <p>Get to know where people are talking about elections this Christmas season</p>
+  <p>Explore other topics as well</p>
+  <p>Go ahead and pic a topic</p>
+      <select class="selectpicker" name=dfs" onchange="location = this.value;">
+      <option disabled selected value>--select a topic--</option>
+        {% for t in all_topics %}
+        <li><option value="/{{t.id}}">{{ t.topic }}</option></li>
+        {% endfor %}
+      </select>
+</div>
+</body>
+</html>
+

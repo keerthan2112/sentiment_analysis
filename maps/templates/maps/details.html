@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map {
+        height: 400px;
+        width: 75%;
+      }
+      /* Optional: Makes the sample page fill the window. */
+    </style>
+  </head>
+  <body>
+
+
+
+  <script async defer
+          src="https://maps.googleapis.com/maps/api/js?key=">
+
+  </script>
+    <h3>Google Maps Demo</h3>
+
+  <div >
+  <div id="map" ></div>
+</div>
+
+  <div id = "demo"> </div>
+
+    <script type="text/javascript">
+
+  function codeAddress() {
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", "messaging?messaging=awesome", true);
+    xhr.send(null);
+    xhr.onreadystatechange = function(){
+      if(this.readyState == 4 && this.status == 200){
+        document.getElementById("demo").innerHTML = this.responseText;
+      }
+    }
+  }
+
+  var map;
+  function initMap() {
+    map = new google.maps.Map(document.getElementById('map'), {
+      center: {
+        lat: 0,
+        lng: 0
+      },
+      zoom: 2
+    });
+
+
+
+
+
+  var icons = {
+          positive: {
+            icon: 'https://softarchive.la/db/i/emoticons/03.gif'
+          },
+          negative: {
+            icon: 'http://files.abandonia.com/extras/Forum%20Emoticons/angry2.gif'
+          },
+          neutral: {
+            icon: 'http://1.bp.blogspot.com/-ScO9KtKoLDI/T1JZ2jlbloI/AAAAAAAAAVs/eRx5dgl6b_0/s1600/serious+smiley.png'
+          }
+        };
+    var latitudes   = [];
+    var longitudes  = [];
+    var sentiments  = [];
+    {% for i in list1 %}
+      latitudes.push({{ i.latitude }});
+      longitudes.push({{ i.longitude }});
+      sentiments.push({{ i.sentiment }});
+    {% endfor %}
+
+ var marker, i;
+    for (i = 0; i < latitudes.length; i++) {
+      if (sentiments[i] == 0){
+        marker = new google.maps.Marker({
+          position: new google.maps.LatLng(latitudes[i], longitudes[i]),
+          map: map,
+          icon: icons['neutral'].icon,
+        });
+      }else if(sentiments[i] == 1){
+        marker = new google.maps.Marker({
+          position: new google.maps.LatLng(latitudes[i], longitudes[i]),
+          map: map,
+          icon: icons['positive'].icon,
+        });
+      }else{
+        marker = new google.maps.Marker({
+          position: new google.maps.LatLng(latitudes[i], longitudes[i]),
+          map: map,
+          icon: icons['negative'].icon,
+        });
+      }
+
+      google.maps.event.addListener(marker, 'click', (function (marker, i) {
+        return function () {
+        }
+      })(marker, i));
+    }
+    }
+
+
+</script>
+
+{% if count != 0 %}
+    <h2>New tweet is indexed</h2>
+ {% endif %}
+
+  </body>
+</html>
